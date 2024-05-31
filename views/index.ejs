@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greeting Website</title>
+</head>
+<body>
+    <h1 id="greeting">Click the button to get a greeting!</h1>
+    <p id="time">Current time: <%= currentTime %></p>
+    <button id="greetButton">Greet Me</button>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#greetButton').on('click', () => {
+            $.post('/greet', (data) => {
+                $('#greeting').text(data.greeting);
+            });
+        });
+    </script>
+</body>
+</html>

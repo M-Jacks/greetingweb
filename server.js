@@ -1,31 +1,29 @@
 const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const path = require('path');
 
-app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-    const currentTime = new Date().toLocaleTimeString();
-    res.render('index', { currentTime });
-});
+app.get('/greet', (req, res) => {
+    const currentHour = new Date().getHours();
+    let message = '';
 
-app.post('/greet', (req, res) => {
-    const currentTime = new Date();
-    const hour = currentTime.getHours();
-
-    let greeting; 
-    if (hour < 12) { 
-        greeting = 'Good morning!'; 
-    } else if (hour < 18) {
-        greeting = 'Good afternoon!';
-    } else { 
-        greeting = 'Good evening!';
+    if (currentHour < 12) {
+        message = 'Good Morning!';
+    } else if (currentHour < 18) {
+        message = 'Good Afternoon!';
+    } else {
+        message = 'Good Evening!';
     }
 
-    res.json({ greeting });
+    res.json({ message });
 });
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
